@@ -79,6 +79,19 @@ angular.module('starter.controllers', [])
   $scope.remove = function(chat) {
     Chats.remove(chat);
   };
+
+  var page = 0; $scope.noMoreItemsAvailable = false;
+  $scope.loadMore = function() {
+    if(!$scope.noMoreItemsAvailable)
+      page++;
+    Contacts.all({page: page}).then(function(contacts) {
+      if(contacts.length > 0)
+        $scope.chats = $scope.chats.concat(contacts);
+      else
+        $scope.noMoreItemsAvailable = true;
+      $scope.$broadcast('scroll.infiniteScrollComplete');
+    });
+  }
 })
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {

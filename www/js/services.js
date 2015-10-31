@@ -137,7 +137,7 @@ angular.module('starter.services', [])
   }
 
   self.unchecked = function() {
-    return DBA.query("SELECT * FROM Contacts WHERE checked=0 ORDER BY LOWER(name) limit 10")
+    return DBA.query("SELECT * FROM Contacts WHERE checked=0 ORDER BY LOWER(name)")
       .then(function(result) {
         return DBA.getAll(result);
       });
