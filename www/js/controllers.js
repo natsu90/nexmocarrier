@@ -19,17 +19,21 @@ angular.module('starter.controllers', [])
     country_code = sim_data.countryCode.toUpperCase();
   });
 
-  $scope.ScanContacts = function() {console.log($scope.api_key, $scope.api_secret, country_code);
+  $scope.api = {};
+  $scope.api.key = window.localStorage.getItem('api_key');
+  $scope.api.secret = window.localStorage.getItem('api_secret');
+  $scope.ScanContacts = function() {
+    window.localStorage.setItem('api_key', $scope.api.key);
+    window.localStorage.setItem('api_secret', $scope.api.secret);
     $scope.stopScan = !$scope.stopScan;
     if(!$scope.stopScan) {
       var promise = Contacts.unchecked().then(function(contacts) {
         $scope.total = contacts.length;
         return contacts.reduce(function (p, contact) {
             return p.then(function() {
-                return $http.post('https://api.nexmo.com/number/lookup/json', {api_key: $scope.api_key, api_secret: $scope.api_secret, number: contact.number, country: country_code})
+                return $http.post('https://api.nexmo.com/number/lookup/json', {api_key: $scope.api.key, api_secret: $scope.api.secret, number: contact.number, country: country_code})
                   .then(function(res) {
                     res = res.data;
-                    console.log(res);
                     if(res.status == 0) {
                       Contacts.update(contact.id, {country_code: res.current_carrier.country, carrier_name: res.current_carrier.name, number_type: res.current_carrier.network_type}).then(function() {
                         $scope.total--;
@@ -59,7 +63,7 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('ChatsCtrl', function($scope, Chats) {
+.controller('ChatsCtrl', function($scope, Chats, Contacts) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -68,7 +72,10 @@ angular.module('starter.controllers', [])
   //$scope.$on('$ionicView.enter', function(e) {
   //});
 
-  $scope.chats = Chats.all();
+  $scope.chats = [];
+  Contacts.all().then(function(contacts) {
+    $scope.chats = contacts;
+  });
   $scope.remove = function(chat) {
     Chats.remove(chat);
   };

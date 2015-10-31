@@ -6,11 +6,11 @@
         <div>
         <label class="item item-input">
           <span class="input-label">API Key</span>
-          <input type="text" ng-model="api_key" ng-init="api_key= ''">
+          <input type="text" ng-model="api.key">
         </label>
         <label class="item item-input">
           <span class="input-label">API Secret</span>
-          <input type="text" ng-model="api_secret" ng-init="api_secret= ''">
+          <input type="text" ng-model="api.secret">
         </label>
         <button class="button button-block icon-left" ng-click="ScanContacts()" ng-class="{'ion-ios-close-outline button-assertive': !stopScan, 'ion-ios-search button-positive': stopScan}" ng-disabled=total==0 >{{ actionText }} Lookup ({{ total }})</button>
         </div>

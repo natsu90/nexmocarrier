@@ -150,7 +150,7 @@ angular.module('starter.services', [])
   return self;
 })
 
-.factory('Chats', function() {
+.factory('Chats', function(Contacts) {
   // Might use a resource here that returns a JSON array
 
   // Some fake testing data
