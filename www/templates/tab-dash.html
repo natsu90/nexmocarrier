@@ -1,0 +1,20 @@
+<ion-view view-title="Dashboard">
+  <ion-content class="padding">
+    <div class="list card">
+      <div class="item item-divider">Action</div>
+      <div class="item item-body">
+        <div>
+        <label class="item item-input">
+          <span class="input-label">API Key</span>
+          <input type="text" ng-model="api_key" ng-init="api_key= ''">
+        </label>
+        <label class="item item-input">
+          <span class="input-label">API Secret</span>
+          <input type="text" ng-model="api_secret" ng-init="api_secret= ''">
+        </label>
+        <button class="button button-block icon-left" ng-click="ScanContacts()" ng-class="{'ion-ios-close-outline button-assertive': !stopScan, 'ion-ios-search button-positive': stopScan}" ng-disabled=total==0 >{{ actionText }} Lookup ({{ total }})</button>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
